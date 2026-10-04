@@ -1,0 +1,509 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers' Day</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Georgia, serif;
+        }
+
+        .sky {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 50% 20%, #293b72 0%, transparent 30%),
+                linear-gradient(180deg, #070b24, #11153b 55%, #252052);
+        }
+
+        .stars {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, white 1px, transparent 1.5px),
+                radial-gradient(circle, #b9caff 1px, transparent 1.5px),
+                radial-gradient(circle, white 1.5px, transparent 2px);
+            background-size: 90px 90px, 140px 140px, 210px 210px;
+            background-position: 10px 20px, 50px 70px, 100px 30px;
+            animation: starsMove 12s linear infinite;
+            opacity: 0.75;
+        }
+
+        @keyframes starsMove {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-90px);
+            }
+        }
+
+        .moon {
+            position: absolute;
+            top: 8%;
+            right: 12%;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #fff9df;
+            box-shadow:
+                0 0 25px #fff8cf,
+                0 0 70px #cbd6ff;
+            animation: moonFloat 4s ease-in-out infinite;
+        }
+
+        .moon-glow {
+            position: absolute;
+            inset: -35px;
+            border-radius: 50%;
+            background: #d9e2ff;
+            opacity: 0.08;
+        }
+
+        @keyframes moonFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(12px);
+            }
+        }
+
+        .cloud {
+            position: absolute;
+            width: 170px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            filter: blur(2px);
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: "";
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 70px;
+            height: 70px;
+            left: 25px;
+            bottom: 5px;
+        }
+
+        .cloud::after {
+            width: 90px;
+            height: 90px;
+            right: 20px;
+            bottom: 0;
+        }
+
+        .cloud1 {
+            left: -40px;
+            bottom: 20%;
+            animation: cloudMove 18s linear infinite;
+        }
+
+        .cloud2 {
+            right: -80px;
+            top: 28%;
+            transform: scale(0.7);
+            animation: cloudMove2 22s linear infinite;
+        }
+
+        @keyframes cloudMove {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(120vw);
+            }
+        }
+
+        @keyframes cloudMove2 {
+            from {
+                transform: translateX(0) scale(0.7);
+            }
+
+            to {
+                transform: translateX(-120vw) scale(0.7);
+            }
+        }
+
+        .card {
+            position: relative;
+            z-index: 5;
+            width: 500px;
+            max-width: 90vw;
+            max-height: 92vh;
+            padding: 40px 45px;
+            text-align: center;
+            border-radius: 32px;
+            background: rgba(19, 23, 59, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                inset 0 0 30px rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            transition: 0.8s;
+        }
+
+        .card.open {
+            transform: scale(1.04);
+        }
+
+        .tag {
+            color: #c9d4ff;
+            font-size: 11px;
+            letter-spacing: 3px;
+        }
+
+        .icon {
+            font-size: 65px;
+            margin: 12px 0;
+            filter: drop-shadow(0 0 12px #fff0a8);
+            animation: moonIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes moonIcon {
+
+            0%,
+            100% {
+                transform: rotate(-4deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(4deg) translateY(-7px);
+            }
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 34px;
+            margin: 8px 0;
+            text-shadow: 0 0 20px rgba(190, 205, 255, 0.5);
+        }
+
+        .line {
+            width: 65px;
+            height: 2px;
+            background: #c7d3ff;
+            margin: 15px auto;
+            box-shadow: 0 0 10px #c7d3ff;
+        }
+
+        .intro {
+            color: #c1c7df;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .message {
+            margin-top: 22px;
+            padding: 22px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #dce1f3;
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(20px);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 1s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 280px;
+        }
+
+        .message b {
+            color: #fff0a8;
+        }
+
+        .stars-text {
+            color: #fff0a8;
+            font-size: 20px;
+            letter-spacing: 8px;
+            margin-top: 10px;
+        }
+
+        button {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-family: Georgia, serif;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 22px;
+            box-shadow: 0 0 20px rgba(170, 190, 255, 0.15);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.07);
+            box-shadow: 0 0 30px rgba(190, 205, 255, 0.3);
+        }
+
+        .footer {
+            color: #777e9f;
+            font-size: 11px;
+            line-height: 1.8;
+            margin-top: 18px;
+        }
+
+        .footer b {
+            color: #c9d4ff;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        .magic-star {
+            position: fixed;
+            z-index: 20;
+            color: white;
+            pointer-events: none;
+            font-size: 20px;
+            text-shadow:
+                0 0 8px white,
+                0 0 20px #b8c9ff;
+            animation: magic 2.5s ease-out forwards;
+        }
+
+        @keyframes magic {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0);
+            }
+
+            20% {
+                opacity: 1;
+                transform: scale(1.5) rotate(45deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform:
+                    translate(calc((var(--x) - 50) * 1vw),
+                        calc((var(--y) - 50) * 1vh)) scale(0) rotate(180deg);
+            }
+        }
+
+        .card.burst {
+            animation: burst 1.2s ease;
+        }
+
+        @keyframes burst {
+            0% {
+                transform: scale(1);
+            }
+
+            35% {
+                transform: scale(1.08);
+                box-shadow:
+                    0 0 60px rgba(180, 200, 255, 0.45),
+                    0 0 120px rgba(160, 180, 255, 0.25);
+            }
+
+            100% {
+                transform: scale(1.04);
+            }
+        }
+
+        @media (max-height: 650px) {
+            .card {
+                transform: scale(0.82);
+            }
+
+            .card.open {
+                transform: scale(0.86);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 90vw;
+                padding: 30px 24px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .icon {
+                font-size: 55px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .card {
+                padding: 25px 18px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .intro {
+                font-size: 13px;
+            }
+
+            .message {
+                font-size: 12px;
+                padding: 16px;
+            }
+
+            .moon {
+                width: 65px;
+                height: 65px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sky">
+
+        <div class="stars"></div>
+
+        <div class="moon">
+            <div class="moon-glow"></div>
+        </div>
+
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+
+        <div class="card" id="card">
+
+            <div class="tag">✦ A SPECIAL MESSAGE ✦</div>
+
+            <div class="icon">🌙</div>
+
+            <h1>Happy Teachers' Day</h1>
+
+            <div class="line"></div>
+
+            <p class="intro">
+                For the teacher who makes every lesson
+                a little brighter. ✨
+            </p>
+
+            <div class="message" id="message">
+
+                <p>
+                    Dear Teacher,
+                </p>
+
+                <p>
+                    Thank you for guiding me, encouraging me,
+                    and believing in me even when things get difficult.
+                </p>
+
+                <p>
+                    Some teachers teach lessons.
+                    <br>
+                    <b>Great teachers leave a little light behind.</b>
+                </p>
+
+                <div class="stars-text">✦ ✧ ✦</div>
+
+            </div>
+
+            <button id="button">
+                Open the Magic ✨
+            </button>
+
+            <div class="footer">
+                Made with gratitude ♡
+                <br>
+                Made by <b>Arfa Rehman</b> — Class 9 Aqua
+            </div>
+
+        </div>
+
+        <div id="magic"></div>
+
+    </div>
+
+    <script>
+        const button = document.getElementById("button");
+        const message = document.getElementById("message");
+        const card = document.getElementById("card");
+        const magic = document.getElementById("magic");
+
+        button.addEventListener("click", () => {
+
+            message.classList.add("show");
+
+            card.classList.remove("burst");
+
+            setTimeout(() => {
+                card.classList.add("burst");
+            }, 20);
+
+            button.textContent = "The stars heard you ✦";
+
+            for (let i = 0; i < 35; i++) {
+
+                const star = document.createElement("div");
+
+                star.className = "magic-star";
+                star.textContent = i % 3 === 0 ? "✦" : "✧";
+
+                star.style.left = "50%";
+                star.style.top = "50%";
+
+                star.style.setProperty(
+                    "--x",
+                    Math.random() * 180 - 90
+                );
+
+                star.style.setProperty(
+                    "--y",
+                    Math.random() * 160 - 80
+                );
+
+                star.style.animationDelay =
+                    Math.random() * 0.8 + "s";
+
+                magic.appendChild(star);
+
+                setTimeout(() => {
+                    star.remove();
+                }, 3500);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+```
